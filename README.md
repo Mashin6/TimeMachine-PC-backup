@@ -2,7 +2,7 @@
 Script for automatic Time Machine backup of Mac to PC HDD over local wifi network. Simulates the discontinued Time Capsule behavior, but restricts time machine backups to only once per day. Script will silently autoload after mac bootup or restart and will keep running invisibly in the background.
 
 *Requires:*
-* MacOS 10.15 Catalina
+* MacOS 11.0 Big Sur
 * Wakeonlan (https://github.com/jpoliv/wakeonlan), which can be istalled with Mac Ports (https://ports.macports.org/port/wakeonlan)
 * PC needs to be set up to be able to boot and/or wake from sleep with wake-on-lan
 

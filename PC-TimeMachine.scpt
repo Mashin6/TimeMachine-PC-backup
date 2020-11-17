@@ -9,6 +9,8 @@ Features:
 
 Author: Martin Machyna
 Date: August 19, 2020
+
+Update: November 16, 2020  :  update changes in MacOS Big Sur
 *)
 
 global lastBackup
@@ -31,7 +33,7 @@ global sparseBundlePath
 set wifiName1 to "Wifi_5G"
 set wifiName2 to "Wifi_2.4G"
 set TMname to "TimeMachineHome"
-set pcIP to "192.168.1.0" -- This was to contain subnet mask. See: https://github.com/jpoliv/wakeonlan
+set pcIP to "192.168.1.0" -- This has to contain subnet mask. See: https://github.com/jpoliv/wakeonlan
 set pcMacAddress to "A4:BB:6D:A5:C4:07"
 set smbUserName to "john.doe" -- For email adresses replace @ with URL form %40 e.g. john.doe%40gmail.com
 set smbPwd to "password"
@@ -42,7 +44,7 @@ set sparseBundlePath to "/Users/johndoe/shared_folder/johndoes-mac_TimeMachine.s
 
 
 (* Set initial values at start up *)
-set lastBackup to do shell script "log show --style syslog --info --last 48h --predicate 'processImagePath contains \"backupd\" and subsystem beginswith \"com.apple.TimeMachine\"' | grep 'Backup completed successfully' | tail -n 1 | cut -d' ' -f1 | awk -v FS=\"-\" '{print int($3) \".\" int($2) \".\" substr($1, 3)}'"
+set lastBackup to do shell script "log show --style syslog --info --last 48h --predicate 'processImagePath contains \"backupd\" and subsystem beginswith \"com.apple.TimeMachine\"' | grep 'Completed backup' | tail -n 1 | cut -d' ' -f1 | awk -v FS=\"-\" '{print int($3) \".\" int($2) \".\" substr($1, 3)}'"
 set isConnected to false
 set TMstat to "BackupNotRunning"
 
@@ -56,7 +58,7 @@ on idle
 
         (* After connecting to wifi and after back up is finished update last backup date  *)
         if (lastBackup is not short date string of (current date)) and (TMstat is "BackupNotRunning") then
-            set lastBackup to do shell script "log show --style syslog --info --last 48h --predicate 'processImagePath contains \"backupd\" and subsystem beginswith \"com.apple.TimeMachine\"' | grep 'Backup completed successfully' | tail -n 1 | cut -d' ' -f1 | awk -v FS=\"-\" '{print int($3) \".\" int($2) \".\" substr($1, 3)}'"
+            set lastBackup to do shell script "log show --style syslog --info --last 48h --predicate 'processImagePath contains \"backupd\" and subsystem beginswith \"com.apple.TimeMachine\"' | grep 'Completed backup' | tail -n 1 | cut -d' ' -f1 | awk -v FS=\"-\" '{print int($3) \".\" int($2) \".\" substr($1, 3)}'"
         end if
 
         (* If there is no backup today keep cheking for Time Machine drive connection and keep PC awake *)
