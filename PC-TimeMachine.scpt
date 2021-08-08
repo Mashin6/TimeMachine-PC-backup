@@ -90,7 +90,7 @@ on idle
 
             try
                 tell application "Finder"
-                    set isConnected to disk "TimeMachineHome" exists
+                    set isConnected to disk TMname exists
                 end tell
             end try
         end if
